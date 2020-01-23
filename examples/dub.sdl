@@ -24,4 +24,10 @@ configuration "text" {
    targetName "textbox_extended"
    mainSourceFile "textbox_extended_demo.d"
    sourceFile "textbox_extended_demo.d"
+   }
+
+configuration "btn" {
+   targetName "btn"
+   mainSourceFile "button.d"
+   sourceFile "button.d"
 }

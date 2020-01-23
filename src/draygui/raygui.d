@@ -491,7 +491,12 @@ void GuiSetStyle(int control, int property, int value) {
    guiStyle[control * (NUM_PROPS_DEFAULT + NUM_PROPS_EXTENDED) + property] = value;
 }
 
-/// Get control style property value
+/**
+ * Get control style property value
+ * Params:
+ *  control = Control index
+ *  property = Property index
+ */
 int GuiGetStyle(int control, int property) {
    if (!guiStyleLoaded) {
       GuiLoadStyleDefault();
@@ -767,21 +772,47 @@ void GuiLabel(Rectangle bounds, string text) {
    //--------------------------------------------------------------------
 }
 
-/// Button control, returns true when clicked
+///
+/**
+ * Button control
+ *
+ * Params:
+ *  bounds = Button bounds
+ *  text = Text inside button
+ *
+ *
+ * Returns:  true when clicked
+ *
+ */
 bool GuiButton(Rectangle bounds, string text) {
-   auto state = guiState;
-   immutable borderWidth = GuiGetStyle(BUTTON, BORDER_WIDTH);
-   immutable pressed = bounds.LeftClicked(state);
+   GuiControlState state = guiState;
+   immutable(int) borderWidth = GuiGetStyle(BUTTON, BORDER_WIDTH);
+   immutable(int) pressed = bounds.LeftClicked(state);
 
    // Draw control
+   /+
    DrawRectangleLinesEx(bounds, borderWidth, Fade(GetColor(GuiGetStyle(BUTTON, BORDER + (state * 3))), guiAlpha));
    DrawRectangleRec(Rectangle(bounds.x + borderWidth, bounds.y + borderWidth, bounds.width - 2 * borderWidth, bounds.height - 2
          * borderWidth), Fade(GetColor(GuiGetStyle(BUTTON, BASE + (state * 3))), guiAlpha));
    GuiDrawText(text, GetTextBounds(BUTTON, bounds), GuiGetStyle(BUTTON, TEXT_ALIGNMENT),
          Fade(GetColor(GuiGetStyle(BUTTON, TEXT + (state * 3))), guiAlpha));
++/
+   DrawRectangleLinesEx(bounds, borderWidth, Fade(getBtnColor!BORDER(state), guiAlpha));
+   DrawRectangleRec(Rectangle(bounds.x + borderWidth, bounds.y + borderWidth, bounds.width - 2 * borderWidth, bounds.height - 2
+         * borderWidth), Fade(getBtnColor!BASE(state), guiAlpha));
+   GuiDrawText(text, GetTextBounds(BUTTON, bounds), GuiGetStyle(BUTTON, TEXT_ALIGNMENT),
+         Fade(getBtnColor!TEXT(state), guiAlpha));
 
    return pressed;
 }
+private Color getBtnColor(GuiPropertyElement E)(GuiControlState state) {
+   return GetColor(GuiGetStyle(BUTTON, E + (state * 3)));
+}
+
+private Fade getBtnFade(GuiPropertyElement E)(GuiControlState state, float alpha) {
+   return Fade(getBtnColor!E(state), alpha);
+}
+
 
 /// Determine whether something has been clicked.
 private bool LeftClicked(in Rectangle bounds, ref GuiControlState state) {
@@ -2393,7 +2424,6 @@ void GuiLoadStyleDefault() {
    GuiSetStyle(GuiControl.COLORPICKER, GuiColorPickerProperty.BAR_PADDING, 0xa);
    GuiSetStyle(GuiControl.COLORPICKER, GuiColorPickerProperty.BAR_SELECTOR_HEIGHT, 6);
    GuiSetStyle(GuiControl.COLORPICKER, GuiColorPickerProperty.BAR_SELECTOR_PADDING, 2);
-
 }
 
 /// Updates controls style with default values
@@ -2412,7 +2442,6 @@ void GuiUpdateStyleComplete() {
 /// a number that can change between ricon versions
 string GuiIconText(int iconId, string text) {
    import std.format : format;
-
    return "#%03d#%s".format(iconId, text);
 }
 
