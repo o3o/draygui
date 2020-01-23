@@ -1,0 +1,8 @@
+name "draygui"
+description "raygui porting for D"
+authors "Orfeo Da Via"
+copyright "Copyright © 2020, Orfeo Da Via"
+license "Boost"
+dependency "raylib-d" version="~>2.5.0"
+
+libs "raylib"

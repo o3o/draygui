@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/draygui
+draygui.so
+draygui.dylib
+draygui.dll
+draygui.a
+draygui.lib
+draygui-test-*
+*.exe
+*.o
+*.obj
+*.lst
+libdraygui.a
