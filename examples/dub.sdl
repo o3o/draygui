@@ -1,0 +1,16 @@
+name "examples"
+description "Examples for draygui"
+authors "Orfeo Da Vià"
+copyright "Copyright © 2020, Orfeo Da Vià"
+license "boost"
+libs "raylib"
+
+dependency "draygui" path="../"
+
+configuration "cts" {
+   name "cts"
+	targetType "executable"
+   mainSourceFile "controls_test_suite.d"
+   sourcePaths "."
+   dependency "draygui" path="../"
+}
