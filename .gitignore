@@ -14,3 +14,4 @@ draygui-test-*
 *.obj
 *.lst
 libdraygui.a
+examples/portable

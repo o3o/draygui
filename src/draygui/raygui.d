@@ -2139,7 +2139,7 @@ float GuiColorBarHue(Rectangle bounds, float hue) {
 //color.a = (unsigned char)(GuiColorBarAlpha(boundsAlpha, (float)color.a/255.0f)*255.0f);
 Color GuiColorPicker(Rectangle bounds, Color color) {
    // FIX:
-   //return WHITE;
+   return WHITE;
 }
 
 /// Message Box control

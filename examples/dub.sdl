@@ -3,14 +3,25 @@ description "Examples for draygui"
 authors "Orfeo Da Vià"
 copyright "Copyright © 2020, Orfeo Da Vià"
 license "boost"
+targetType "executable"
 libs "raylib"
 
 dependency "draygui" path="../"
 
 configuration "cts" {
-   name "cts"
-	targetType "executable"
+   targetName "cts"
    mainSourceFile "controls_test_suite.d"
-   sourcePaths "."
-   dependency "draygui" path="../"
+   sourceFile "controls_test_suite.d"
+}
+
+configuration "portable" {
+   targetName "portable"
+   mainSourceFile "portable_window.d"
+   sourceFile "portable_window.d"
+}
+
+configuration "text" {
+   targetName "textbox_extended"
+   mainSourceFile "textbox_extended_demo.d"
+   sourceFile "textbox_extended_demo.d"
 }
