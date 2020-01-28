@@ -2,10 +2,14 @@ import raylib;
 import draygui.raygui;
 import draygui.iconsdata;
 import std.format : format;
+import std.string :  toStringz;
+import std.conv : to;
+import std.stdio;
+import std.file: getcwd;
+import std.experimental.logger;
 
-int main() {
+int main(string[] args) {
    // Initialization
-   //---------------------------------------------------------------------------------------
    int screenWidth = 690;
    int screenHeight = 560;
 
@@ -70,6 +74,11 @@ int main() {
 
    SetTargetFPS(60);
    //--------------------------------------------------------------------------------------
+   bool isFileDropped;
+   trace("cvw : %s        ", getcwd);
+   GuiLoadStyle("../styles/terminal/terminal.rgs");
+   //GuiLoadStyle("../styles/lavanda/lavanda.rgs");
+   //GuiLoadStyle("../styles/cyber/cyber.rgs");
 
    // Main game loop
    while (!exitWindow) // Detect window close button or ESC key
@@ -84,18 +93,23 @@ int main() {
       if (IsKeyDown(KeyboardKey.KEY_LEFT_CONTROL) && IsKeyPressed(KeyboardKey.KEY_S))
          showTextInputBox = true;
 
+
       // FIX:
-      /+
       if (IsFileDropped()) {
          int dropsCount = 0;
          char** droppedFiles = GetDroppedFiles(&dropsCount);
+         writefln("count:%s", dropsCount);
 
-         if ((dropsCount > 0) && IsFileExtension(droppedFiles[0], ".rgs"))
-            GuiLoadStyle(droppedFiles[0]);
+
+         if ((dropsCount > 0) && IsFileExtension(droppedFiles[0], ".rgs")) {
+            string fn = (droppedFiles[0]).to!string;
+            writeln(fn);
+
+            GuiLoadStyle(fn);
+         }
 
          ClearDroppedFiles(); // Clear internal buffers
       }
-      +/
 
       // Draw
       //----------------------------------------------------------------------------------

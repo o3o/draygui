@@ -48,6 +48,8 @@ module draygui.raygui;
 
 import raylib;
 
+import std.experimental.logger;
+
 ///Current Raygui version.
 enum RAYGUI_VERSION = "2.5-dev";
 //Following https://github.com/raysan5/raygui/blob/75769bdd6bba6e5ac335ef596dbef9fe8a7e41d0/src/raygui.h
@@ -2275,12 +2277,10 @@ Vector2 GuiGrid(Rectangle bounds, float spacing, int subdivs) {
    return currentCell;
 }
 
-//----------------------------------------------------------------------------------
-// Styles loading functions
-//----------------------------------------------------------------------------------
-
-/// Load raygui style file (.rgs)
-/// TEXT ONLY FOR NOW.
+/**
+ * Load raygui style file (.rgs)
+ * TEXT ONLY FOR NOW.
+ */
 void GuiLoadStyle(string fileName) {
    import std.regex : matchFirst, ctRegex;
    import std.typecons : Tuple;
@@ -2293,6 +2293,8 @@ void GuiLoadStyle(string fileName) {
    auto fontRegex = ctRegex!(`^(?P<type>f) (?P<control>\d+) (?P<property>\d+) (?P<value>.+(.ttf|.otf))`);
    File styles;
    try {
+      // open file for reading (r) in text mode (t)
+      tracef("style :%s", fileName);
       styles = File(fileName, "rt");
       foreach (style; styles.byLine) {
          auto match = style.matchFirst(controlRegex);
@@ -2332,7 +2334,8 @@ void GuiLoadStyle(string fileName) {
          }
       }
    }  //Catch any exception.  Could tighten this up.
-   catch (Exception) {
+   catch (Exception ex) {
+      error(ex.msg);
    }
    scope (exit) {
       styles.close();
